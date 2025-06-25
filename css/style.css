@@ -1,0 +1,991 @@
+/* Réinitialisation de box-sizing pour une prévisibilité accrue */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Style général du corps de la page */
+body {
+    font-family: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    background-color: #121B22;
+    color: #e5e5e5;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+/* Section Héro */
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-bottom: 100px;
+    overflow: hidden;
+}
+
+.hero-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://image.tmdb.org/t/p/original/cnpJnAUZmxB7BCzCVcPkTEHPkFF.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: 0;
+}
+
+.hero-overlay-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, #121B22 0%, rgba(20, 20, 20, 0.8) 50%, rgba(20, 20, 20, 0) 100%);
+    z-index: 1;
+}
+
+.hero-content-left {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    padding-left: 70px;
+    padding-right: 20px;
+    margin-left: 0;
+    text-align: left;
+}
+
+.hero-logo {
+    background-image: url('https://image.tmdb.org/t/p/original/xxQ2cidBkPeJ8G8WGMfgXAkgCZu.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    width: 80%;
+    max-width: 400px;
+    height: 150px;
+    margin-bottom: 20px;
+    min-width: 250px;
+}
+
+.hero-info-details {
+    display: flex;
+    gap: 15px;
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+/* CORRECTION: .hero-info-details .info-item */
+.hero-info-details .info-item {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* CORRECTION: .hero-info-details .info-item:not(:last-child)::after */
+.hero-info-details .info-item:not(:last-child)::after {
+    content: '|';
+    margin-left: 15px;
+    color: #606060;
+}
+
+.hero-synopsis {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+}
+
+/* CORRECTION: .hero-section .btn (si .btn est un enfant de .hero-section) */
+.hero-section .btn {
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
+}
+
+/* CORRECTION: .hero-section .btn i */
+.hero-section .btn i {
+    margin-right: 8px;
+}
+
+/* CORRECTION: .hero-section .btn-danger */
+.hero-section .btn-danger {
+    background-color: #b3151d;
+    border-color: #e50914;
+    color: #fff;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+/* CORRECTION: .hero-section .btn-danger:hover */
+.hero-section .btn-danger:hover {
+    background-color: #d21921;
+    border-color: #d21921;
+}
+
+
+/* CORRECTION: .hero-section .btn-secondary */
+.hero-section .btn-secondary {
+    background-color: rgba(109, 109, 110, 0.7);
+    border-color: rgba(109, 109, 110, 0.7);
+    color: #fff;
+}
+
+/* CORRECTION: .hero-section .btn-secondary:hover */
+.hero-section .btn-secondary:hover {
+    background-color: rgba(109, 109, 110, 0.9);
+    border-color: rgba(109, 109, 110, 0.9);
+}
+
+/* Sections Saisons */
+#seasons {
+    padding-bottom: 80px;
+}
+
+#seasons h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 900;
+    margin-bottom: 20px;
+    padding-left: 60px;
+    padding-right: 20px;
+}
+
+.season-carousel {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-bottom: 20px;
+    
+    scroll-snap-type: none;
+    -webkit-overflow-scrolling: auto;
+    padding-left: 60px; /* Applied consistent left padding here */
+    padding-right: 15px;
+    position: relative;
+    /* Ancien z-index: 1. Modifié pour éviter les problèmes de superposition si besoin. */
+    /* z-index: 9999; peut être trop élevé et causer d'autres soucis. Mieux vaut un z-index plus mesuré. */
+    z-index: 10; /* Un z-index plus élevé que le contenu normal, mais pas excessif */
+}
+
+.season-carousel::-webkit-scrollbar {
+    display: none;
+}
+.season-carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.season-card-wrapper {
+    flex: 0 0 auto;
+    width: 200px;
+    position: relative;
+    perspective: 1000px;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: width 0.3s ease;
+    margin: 0;
+    padding: 0;
+    overflow: visible; /* Important pour laisser les détails s'afficher */
+    z-index: 1; /* Chaque carte individuelle doit avoir un z-index inférieur à celui des détails qui s'ouvrent */
+}
+
+/* CORRECTION: .season-carousel .season-card-wrapper:first-child */
+.season-carousel .season-card-wrapper:first-child {
+    /* Removed margin-left as padding is now on the parent carousel */
+    margin-left: 0; /* Assure explicitement que la marge est à zéro */
+}
+
+.season-image-container {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+    transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.season-logo-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: auto;
+    z-index: 5;
+    filter: drop-shadow(0 0 8px rgba(0,0,0,0.8));
+}
+
+.season-info-overlay {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    color: #fff;
+    font-size: 0.8rem;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    padding: 3px 5px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* CORRECTION: .season-info-overlay .info-item */
+.season-info-overlay .info-item {
+    white-space: nowrap;
+}
+
+.season-image {
+    width: 150%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: width 0.3s ease, object-position 0.3s ease;
+}
+
+.season-card {
+    border: none;
+    background-color: #222;
+    transform-origin: center center;
+    position: relative;
+    z-index: 2; /* S'assure que la carte est au-dessus de son wrapper si besoin */
+    border-radius: 5px;
+    overflow: visible; /* Laisse le contenu enfant s'étendre si nécessaire */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* CORRECTION: .season-card .card-body */
+.season-card .card-body {
+    padding: 10px;
+}
+
+/* CORRECTION: .season-card .card-title */
+.season-card .card-title {
+    display: none;
+}
+
+/* Détails de la saison */
+.season-details {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-sizing: border-box;
+    width: 420px;
+    border-top: none;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: opacity 0s linear 0s, transform 0s linear 0s, visibility 0s linear 0s, width 0.3s ease, height 0.3s ease;
+    z-index: 10; /* Important pour qu'il soit au-dessus de l'image de la carte */
+    border-radius: 0 0 5px 5px;
+    min-height: 100px;
+    margin-top: -5px;
+    background-color: #222; /* Couleur de fond par défaut */
+}
+
+/* Couleurs de fond spécifiques pour chaque saison */
+.season-details.season-details-1 { background-color: #7b1119; }
+.season-details.season-details-2 { background-color: #0a3333; }
+.season-details.season-details-3 { background-color: #de6211; }
+
+/* CORRECTION: .season-details .season-title */
+.season-details .season-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 900;
+    color: #e5e5e5 !important;
+    font-size: 1.3rem;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* CORRECTION: .season-details .info-badges */
+.season-details .info-badges {
+    margin-bottom: 15px;
+    gap: 8px;
+}
+
+/* CORRECTION: .season-details .info-badge */
+.season-details .info-badge {
+    background-color: rgba(20, 16, 16, 0.5) !important;
+    color: #fff !important;
+    font-size: 0.9rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.season-details p {
+    color: #ffffff !important;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.season-details p strong {
+    font-weight: bold;
+}
+
+/* CORRECTION: .season-details .small-synopsis */
+.season-details .small-synopsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+/* CORRECTION: .season-details .btn */
+.season-details .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 4px; /* Ajouté pour la cohérence */
+    background-color: transparent;
+    border: 1px solid #e5e5e5;
+    color: #e5e5e5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* CORRECTION: .season-details .btn:hover */
+.season-details .btn:hover {
+    background-color: #e5e5e5;
+    color: #121B22;
+}
+
+/* Effet au survol (desktop) */
+@media (min-width: 992px) {
+    .season-card-wrapper:hover {
+        z-index: 100;
+        height: auto;
+        margin-bottom: 0;
+    }
+
+    /* CORRECTION: .season-card-wrapper:hover .season-card */
+    .season-card-wrapper:hover .season-card {
+        transform: scaleY(1.0);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    /* CORRECTION: .season-card-wrapper:hover .season-image-container */
+    .season-card-wrapper:hover .season-image-container {
+        width: 420px;
+        height: 300px;
+        transform: translateX(0);
+        box-shadow: 0 18px 30px rgba(0,0,0,0.9);
+    }
+
+    /* CORRECTION: .season-card-wrapper:hover .season-image */
+    .season-card-wrapper:hover .season-image {
+        width: 100%;
+        height: 100%;
+        object-position: center center;
+    }
+
+    /* CORRECTION: .season-card-wrapper:hover .season-details */
+    .season-card-wrapper:hover .season-details {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, visibility 0s linear 0.1s, width 0.3s ease, height 0.3s ease;
+        width: 420px;
+        left: 0;
+        box-shadow: 0 18px 30px rgba(0,0,0,0.9);
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .season-card-wrapper:has(~ .season-card-wrapper:hover) {
+        margin-right: 0;
+    }
+    .season-card-wrapper:hover + .season-card-wrapper {
+        margin-left: 220px;
+    }
+}
+
+/* Règles spécifiques pour mobile */
+@media (max-width: 767.98px) {
+    .hero-content-left {
+        max-width: 90%;
+        margin-left: 0;
+        margin-right: auto;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: left;
+    }
+    /* CORRECTION: .hero-content-left .d-flex */
+    .hero-content-left .d-flex {
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .hero-section {
+        min-height: 80vh;
+    }
+    .hero-background-image {
+        background-position: top center;
+    }
+
+    .hero-logo {
+        background-image: url('https://image.tmdb.org/t/p/original/6YFWTX7fiGjWpsnJWLLV4RSbJWd.png');
+        height: 120px;
+        max-width: 350px;
+        background-position: left center;
+    }
+
+    /* CORRECTION: .hero-section .btn */
+    .hero-section .btn {
+        width: auto;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    /* CORRECTION: .hero-section .btn:last-child */
+    .hero-section .btn:last-child {
+        margin-bottom: 0;
+    }
+
+    .hero-info-details {
+        font-size: 0.9rem;
+        gap: 10px;
+    }
+    /* CORRECTION: .hero-info-details .info-item:not(:last-child)::after */
+    .hero-info-details .info-item:not(:last-child)::after {
+        margin-left: 10px;
+    }
+
+    #seasons h2 {
+        padding-left: 10px;
+        padding-right: 20px;
+    }
+
+    .season-carousel {
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-left: 40px ; /* Applied consistent left padding here for mobile */
+        padding-right: 20px;
+        gap: 15px;
+    }
+
+    /* CORRECTION: .season-carousel .season-card-wrapper:first-child */
+    .season-carousel .season-card-wrapper:first-child {
+        margin-left: 0;
+    }
+
+    .season-card-wrapper {
+        flex-shrink: 0;
+        width: 160px;
+        scroll-snap-align: start;
+        transition: none;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        height: auto;
+        z-index: 1;
+    }
+
+    .season-image-container {
+        height: 240px;
+        width: 100%;
+        transition: none;
+        transform: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    /* Styles pour l'agrandissement au tap */
+    /* CORRECTION: .season-card-wrapper.is-tapped */
+    .season-card-wrapper.is-tapped {
+        height: auto;
+        position: relative;
+        margin-bottom: 20px;
+        z-index: 10;
+    }
+
+    /* CORRECTION: .season-card-wrapper.is-tapped .season-image-container */
+    .season-card-wrapper.is-tapped .season-image-container {
+        width: 250px;
+        height: 375px;
+        transform: scale(1.0);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        z-index: 10;
+        transition: all 0.3s ease;
+        margin: 0 auto;
+        display: block;
+    }
+
+    /* CORRECTION: .season-card-wrapper.is-tapped .season-image */
+    .season-card-wrapper.is-tapped .season-image {
+        width: 100%;
+        height: 100%;
+        object-position: center center;
+    }
+
+    /* CORRECTION: .season-card-wrapper.is-tapped .season-details */
+    .season-card-wrapper.is-tapped .season-details {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        width: 250px;
+        left: 50%;
+        transform: translateX(-50%);
+        position: relative; /* Très important pour que les détails soient dans le flux */
+        z-index: 11;
+        margin-top: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        background-color: #222;
+        border-radius: 0 0 5px 5px;
+        padding-bottom: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        color: #ffffff !important;
+    }
+
+    /* CORRECTION: .season-card-wrapper.is-tapped .season-details .season-title, etc. */
+    .season-card-wrapper.is-tapped .season-details .season-title,
+    .season-card-wrapper.is-tapped .season-details .info-badge,
+    .season-card-wrapper.is-tapped .season-details p,
+    .season-card-wrapper.is-tapped .season-details .btn {
+        color: #ffffff !important;
+    }
+
+    /* CORRECTION: .season-carousel:has(.is-tapped) .season-card-wrapper:not(.is-tapped) */
+    .season-carousel:has(.is-tapped) .season-card-wrapper:not(.is-tapped) {
+        opacity: 0.5;
+    }
+    /* CORRECTION: .season-carousel:not(:has(.is-tapped)) .season-card-wrapper */
+    .season-carousel:not(:has(.is-tapped)) .season-card-wrapper {
+        opacity: 1;
+    }
+
+    .season-logo-overlay {
+        bottom: 10px;
+        width: 110px;
+    }
+}
+
+/* Pied de page */
+footer {
+    background-color: #0d0d0d !important;
+    border-top: 1px solid #222;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer a {
+    color: #e5e5e5;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* Bande-annonce pop-up */
+/*
+ * Styles CSS pour la modale de bande-annonce (Rectangulaire)
+ * AVEC ANIMATION D'OUVERTURE/FERMETURE AVEC EFFET DE REBOND
+ */
+
+/* L'overlay sombre standard de Bootstrap sera visible par défaut. */
+/* .modal-backdrop { display: none !important; } */
+
+
+/* ================================================================== */
+/* Animation d'ouverture/fermeture de la modale entière              */
+/* ================================================================== */
+
+/* État initial du modal-dialog (caché et très petit) */
+.modal-dialog {
+    /* Propriétés Bootstrap standards */
+    max-width: 900px; /* Taille maximale finale */
+    margin: 1.75rem auto; /* Centre verticalement et horizontalement */
+    position: relative;
+    pointer-events: none; /* Empêche les clics quand il est invisible/petit */
+
+    /* Animation: au lieu de transformer scale, nous allons animer width/height */
+    /* Ces valeurs seront écrasées par .modal.show */
+    width: 0 !important; /* Démarre très étroit */
+    height: 0 !important; /* Démarre très plat */
+    max-width: 0 !important; /* Override Bootstrap max-width pour l'état initial */
+    max-height: 0 !important; /* Override Bootstrap max-height */
+    opacity: 0; /* Complètement transparent au début */
+    transform: scale(0.1); /* Petite échelle pour un point de départ */
+    transform-origin: center center;
+
+    /* Transition pour l'ouverture, utilisant le cubic-bezier et la durée de votre exemple */
+    transition: width 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                height 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                opacity 0.3s ease-out,
+                transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1); /* Ajout du transform pour le rebond */
+}
+
+/* Quand le modal est actif (classe 'show' ajoutée par Bootstrap) */
+.modal.show .modal-dialog {
+    /* Taille finale et opacité normale */
+    width: 100% !important; /* Prend sa largeur définie par max-width */
+    height: auto !important; /* Hauteur ajustée au contenu (vidéo) */
+    max-width: 900px !important; /* Rétablit la max-width */
+    max-height: none !important; /* Rétablit la max-height */
+    opacity: 1; /* Complètement opaque */
+    transform: scale(1); /* Retour à l'échelle normale */
+
+    /* Applique l'animation de rebond une fois la taille atteinte */
+    animation: bounce 0.6s ease-out;
+    pointer-events: auto; /* Réactive les clics une fois visible */
+}
+
+/* État de fermeture (la classe 'hiding' sera ajoutée par JS) */
+/* C'est là que l'inverse de l'animation se produit */
+.modal.hiding .modal-dialog {
+    width: 0 !important;
+    height: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    opacity: 0;
+    transform: scale(0.1); /* Réduit à nouveau à une petite taille */
+    pointer-events: none; /* Désactive les clics pendant la fermeture */
+}
+
+
+/* Animation pour l'effet de rebond (votre keyframes) */
+@keyframes bounce {
+    0% {
+        transform: scale(1); /* Taille normale */
+    }
+    40% {
+        transform: scale(1.05); /* Augmentation de la taille à 105% (ajusté pour moins d'agressivité) */
+    }
+    70% {
+        transform: scale(0.98); /* Légère réduction pour accentuer le retour */
+    }
+    100% {
+        transform: scale(1); /* Retour à la taille normale */
+    }
+}
+
+
+/* ================================================================== */
+/* Apparition/Disparition de la vidéo à l'intérieur du modal        */
+/* ================================================================== */
+
+/* Styles pour le corps du modal (où se trouve l'iframe) */
+.modal-body {
+    padding: 0;
+    visibility: hidden; /* Masque le contenu de la vidéo par défaut */
+    opacity: 0; /* Complètement transparent par défaut */
+    transition: visibility 0s linear 0.2s, opacity 0.2s ease-in; /* Délai pour l'apparition, transition rapide pour l'opacité */
+}
+
+/* Classe ajoutée par JavaScript quand la vidéo doit être visible */
+.modal-body.show-video {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s; /* Annule le délai sur l'apparition */
+}
+
+/* ================================================================== */
+/* Styles généraux du modal (non liés à l'animation)               */
+/* ================================================================== */
+
+.modal-content {
+    background-color: #000000; /* NOIR PUR */
+    color: #e5e5e5;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3125rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden; /* Important pour que la vidéo ne déborde pas pendant l'animation */
+    width: 100%; /* Prend 100% de la largeur de .modal-dialog */
+    height: 100%; /* Prend 100% de la hauteur de .modal-dialog */
+}
+
+/* Le modal-header est masqué */
+.modal-header {
+    display: none;
+}
+
+/* Styles pour rendre l'iframe de la vidéo responsive (ratio 16:9) */
+.embed-responsive {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+.embed-responsive.embed-responsive-16by9 {
+    padding-bottom: 56.25%;
+}
+.embed-responsive .embed-responsive-item,
+.embed-responsive iframe,
+.embed-responsive embed,
+.embed-responsive object,
+.embed-responsive video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ================================================================== */
+/* Styles pour le bouton de fermeture                               */
+/* ================================================================== */
+
+.btn-close-custom {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    left: auto;
+    z-index: 1070;
+    
+    background-color: #cf1c30;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #e5e5e5;
+    font-size: 1.8rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+
+    border: none;
+    outline: none;
+}
+
+.btn-close-custom:hover {
+    opacity: 1;
+    color: #ffffff;
+    transform: scale(1.05);
+    background-color: #e50914;
+    border: none;
+    outline: none;
+}
+
+.btn-close-custom:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* ================================================================== */
+/* Media queries (Responsive design)                                */
+/* ================================================================== */
+
+@media (max-width: 767.98px) {
+    .btn-close-custom {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+    }
+}
+
+/* Styles pour la flèche de défilement */
+.scroll-down-arrow {
+    position: absolute; /* Position absolue par rapport à .hero-section */
+    z-index: 9999;
+    bottom: 20px;       /* Positionnée à 20px du bas */
+    left: 50%;         /* Centrée horizontalement */
+    transform: translateX(-50%); /* Ajuste le centrage */
+    color: white;      /* MODIFIÉ : Couleur blanche */
+    font-size: 2rem;
+    cursor: pointer;
+    animation: bounce-arrow 2s infinite; /* Animation de rebond */
+}
+
+/* Animation de rebond pour la flèche */
+@keyframes bounce-arrow {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    40% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+    60% {
+        transform: translateY(-5px) translateX(-50%);
+    }
+}
+
+/* Media query pour cacher la flèche sur les appareils mobiles */
+@media (max-width: 767.98px) { /* Cette taille correspond aux écrans de smartphones et tablettes en mode portrait */
+    .scroll-down-arrow {
+        display: none; /* Cache la flèche */
+    }
+}
+
+
+
+
+/* --- Styles du HEADER de la page des épisodes --- */
+.page-header {
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.page-header .container-fluid {
+    padding-left: -15px;
+    padding-right: var(--bs-gutter-x, 1.5rem);
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    font-weight: 900; /* Garde la graisse 900 pour le titre principal */
+    margin-bottom: 0;
+    color: white;
+    cursor: pointer;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+/* Style du lien autour du titre h1 */
+.header-title-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.header-title-link h1 {
+    color: white;/* couleur de base, par exemple #7b1119 */
+    transition: color 0.8s ease; /* temps plus long pour une transition plus douce */
+}
+
+.header-title-link:hover h1 {
+    color: #b3151d;
+}
+
+
+
+/* --- Styles de la section de la liste des épisodes --- */
+#season-1-episodes-list {
+    padding-top: 0.5rem;
+    padding-bottom: 3rem;
+}
+
+/* Styles pour les cartes individuelles des épisodes */
+.episode-card {
+    background-color: transparent;
+    border-radius: 0;
+    overflow: hidden;
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    position: relative;
+}
+
+.episode-card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.episode-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.episode-card-image-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.episode-card:hover img {
+    transform: scale(1.08);
+}
+
+.episode-card:hover .episode-card-image-wrapper::after {
+    opacity: 1;
+}
+
+/* Styles pour le titre de l'épisode */
+.episode-card .episode-title {
+    font-size: 1.1rem;
+    font-weight: 500; /* CHANGEMENT ICI : Mettre la graisse de police à 500 */
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: white;
+    padding: 0;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+/* Changement de couleur du titre de l'épisode au survol de la carte */
+.episode-card:hover .episode-title {
+    color: #b3151d;
+}
+
+/* Styles pour la durée de l'épisode (inchangé) */
+.episode-card .episode-duration {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+/* Ajustements pour les petits écrans (conservés et ajustés) */
+@media (max-width: 575.98px) {
+    .episode-card .episode-title {
+        font-size: 1rem;
+    }
+    .episode-card .episode-duration {
+        font-size: 0.8rem;
+    }
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+    .page-header {
+        padding-top: 1.5rem;
+        padding-bottom: 0rem;
+    }
+    #season-1-episodes-list {
+        padding-top: 0.2rem;
+    }
+}
+a {
+    text-decoration: none;
+}

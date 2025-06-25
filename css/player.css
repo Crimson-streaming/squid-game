@@ -1,0 +1,394 @@
+/* Global Styles */
+:root {
+    --primary-bg: #121B22; /* Keep this as your general primary background if needed elsewhere */
+    --text-color: #e0e0e0;
+    --muted-text-color: rgba(255, 255, 255, 0.7);
+    --accent-red: #b3151d;
+    --disabled-button-border: rgba(255, 255, 255, 0.3);
+    --imdb-purple: #6a0dad;
+    --genre-tag-bg: rgba(255, 255, 255, 0.1);
+    --container-border-radius: 5px; /* New variable for consistent border-radius */
+}
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    font-family: 'DM Sans', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Section */
+.page-header {
+    /* Set the background color directly here. It will now apply correctly
+       because the Bootstrap bg-dark class is removed from HTML. */
+    background-color: #121B22; 
+    padding: 1.5rem 0;
+     padding-bottom: 10px;
+}
+
+.header-content { /* New class for flex container inside header */
+    display: flex;
+    
+    align-items: center;
+    gap: 1.5rem; /* Space between back button and title */
+    
+}
+
+.back-to-index-btn {
+    background-color: #333333; /* A slightly lighter dark for distinction */
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--container-border-radius); /* 5px */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.back-to-index-btn:hover {
+    background-color: #444444;
+}
+
+.header-title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page-header h1 {
+    font-size: 2rem; /* 32px */
+    font-weight: 900;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+
+/* Main Content Area Layout */
+.content-wrapper {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.video-post-wrapper,
+.video-posts-data {
+    background-color: var(--primary-bg);
+}
+
+/* Video Player Container */
+.video-player-base {
+    background-color: var(--primary-bg);
+    position: relative;
+    padding: 0; /* Ensures video player fills the column width */
+}
+
+/* Player Logo */
+#player-logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 98;
+    max-width: 80px;
+    height: auto;
+}
+
+/* Episode Details and Navigation */
+.video-post-info.poster-dtl-item {
+    margin-top: 2rem;
+    /* No horizontal padding here, let Bootstrap col handle it */
+}
+
+.video-details-container { /* New container for the details block */
+    background-color: #1A2730;
+    border-radius: var(--container-border-radius); /* Applied 5px border-radius */
+    padding: 1.5rem; /* Internal padding for content */
+}
+
+.dtl-title-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+    padding: 0; /* Padding handled by parent.video-details-container */
+}
+
+.dtl-title-block h2 {
+    font-size: 1.5rem; /* Reduced from 1.8rem (28px) to 1.5rem (24px) */
+    font-weight: 900;
+    color: var(--text-color);
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+
+.video-watch-share-item {
+    display: flex; /* Applied flex to this container */
+    gap: 1.5rem; /* Increased spacing between buttons */
+}
+
+.btn-episode-nav {
+    padding: 0.6rem 1.25rem; /* Made thinner */
+    border-radius: 5px; /* Applied 5px border-radius */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem; /* 14.4px */
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    background-color: #b3151d; /* Applied new color */
+    border: none; /* Ensured no border */
+    color: #fff; /* Ensured text color is white for contrast */
+}
+
+.btn-episode-nav:hover {
+    background-color: #9e1219; /* Slightly darker red for hover effect */
+}
+
+/* Metadata Block */
+.dtl-list-link {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0; /* Padding handled by parent.video-details-container */
+}
+
+.dtl-list-link li {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: var(--muted-text-color);
+    font-size: 0.85rem; /* 14px */
+    font-weight: 500;
+}
+
+.dtl-list-link li a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dtl-list-link li a:hover {
+    text-decoration: underline;
+}
+
+.video-post-date {
+    font-size: 0.85rem; /* 14px */
+    color: var(--muted-text-color);
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0; /* Padding handled by parent.video-details-container */
+}
+
+.video-post-date span i {
+    margin-right: 0.3rem;
+}
+
+.video-imdb-view {
+    background-color: var(--imdb-purple);
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 500;
+}
+
+/* Genre Tags */
+.actor-video-link {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0; /* Padding handled by parent.video-details-container */
+}
+
+.actor-video-link li a {
+    background-color: var(--genre-tag-bg);
+    color: var(--text-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    font-size: 0.8rem; /* 13px */
+    white-space: nowrap;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.actor-video-link li a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.02);
+}
+
+/* Description Tabs Section */
+.vfx-tabs-item {
+    margin-top: 2rem;
+    padding: 0; /* Removed horizontal padding, let Bootstrap col handle it */
+}
+
+.vfx-tabs-item nav ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    display: flex;
+    margin-left: 1.5rem; /* Shifted the tab bar to the right */
+}
+
+.vfx-tabs-item nav ul li label {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--muted-text-color);
+    padding: 0.7rem 1.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    font-weight: 500;
+}
+
+.vfx-tabs-item nav ul li label:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Hide the radio input */
+.vfx-tabs-item input[type="radio"] {
+    display: none;
+}
+
+/* Active tab styling */
+.vfx-tabs-item input[type="radio"]:checked + nav ul li.tab1 label {
+    background-color: var(--accent-red);
+    color: #fff;
+}
+
+/* Tab content area */
+.tabs_item_block {
+    background-color: #1A2730;
+    padding: 1.5rem;
+    border-radius: var(--container-border-radius); /* Applied 5px border-radius */
+}
+
+.description-detail-item p {
+    color: var(--text-color);
+    font-size: 1rem; /* 16px */
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* Footer Styling */
+footer {
+    background-color: var(--primary-bg);
+    padding: 1.5rem 0;
+}
+
+footer p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem; /* 14.4px */
+    margin-bottom: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) { /* Tablets and smaller */
+.dtl-title-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+.video-watch-share-item {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+.btn-episode-nav {
+        flex-grow: 1;
+        justify-content: center;
+    }
+
+.page-header h1,
+.dtl-title-block h2 {
+        font-size: 1.3rem; /* Adjusted for smaller screens as well */
+    }
+
+    /* Adjust padding for the new video details container on smaller screens */
+.video-details-container {
+        padding: 1rem;
+    }
+
+.vfx-tabs-item nav ul {
+        margin-left: 1rem; /* Adjust for smaller screens if needed */
+    }
+}
+
+@media (max-width: 575px) { /* Mobile phones */
+.video-watch-share-item {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+#castButton {
+    cursor: pointer;
+    border: none;
+    font-size: 23px; /* Taille du texte */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px; /* Réduit la zone d'effet autour de l'icône */
+}
+
+#castButton svg {
+    width: 21.5px; /* Taille du SVG (icône) */
+    height: 21.5px; /* Taille du SVG (icône) */
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Base styles for all Squid Game toasts */
+.swal2-popup.swal2-toast.squid-game-toast {
+    background-color: #121B22 !important; /* Main background color for toasts */
+    color: #E0E0E0 !important; /* Light text color for readability */
+    
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* A bit more pronounced shadow */
+    font-family: 'Nunito', sans-serif; /* Use your preferred font */
+}
+
+/* Style for the toast title */
+.swal2-popup.swal2-toast .swal2-title.squid-game-toast-title {
+    color: #E0E0E0 !important; /* Gold color for titles, to mimic game elements */
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Style for the toast text/content */
+.swal2-popup.swal2-toast .swal2-html-container.squid-game-toast-text {
+    color: #D0D0D0 !important; /* Slightly darker light color for text */
+    font-size: 0.95em;
+}
+
+/* Style for the timer progress bar (success/green) */
+.swal2-popup.swal2-toast .swal2-timer-progress-bar.squid-game-toast-progress-bar-success {
+    background-color: #4CAF50 !important; /* A standard green for success */
+}
+
+/* Style for the timer progress bar (info/blue or neutral) */
+.swal2-popup.swal2-toast .swal2-timer-progress-bar.squid-game-toast-progress-bar-info {
+    background-color: #2196F3 !important; /* A standard blue for info */
+}
+
+/* You might want to adjust the icon colors if they clash */
+/* The icon colors are often SVG filters, which can be tricky to override directly with simple CSS.
+   If you need to change them, you might consider overriding SweetAlert2's internal CSS for icons
+   or using a global theme setup in SweetAlert2 if you have many alerts.
+   For now, the default icons often look fine with dark backgrounds.
+*/
