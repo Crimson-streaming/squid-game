@@ -202,6 +202,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Gère la fin de la vidéo pour passer à l'épisode suivant avec le paramètre ?play=true
+  player.on('ended', () => {
+    console.log("La vidéo est terminée. Tentative de passer à l'épisode suivant.");
+    const nextEpisodeLink = document.querySelector('.video-post-info .btn-episode-nav[title="Épisode Suiv."]');
+
+    if (nextEpisodeLink && nextEpisodeLink.getAttribute('href') !== 'javascript:void(0)') {
+      let nextUrl = new URL(nextEpisodeLink.href, window.location.origin);
+      nextUrl.searchParams.set('play', 'true'); // Ajoute le paramètre ?play=true
+      console.log("Lien de l'épisode suivant trouvé, redirection vers :", nextUrl.toString());
+      window.location.href = nextUrl.toString(); // Redirige vers l'épisode suivant
+    } else {
+      console.log("Pas de lien valide pour l'épisode suivant ou c'est le dernier épisode.");
+    }
+  });
+
+  // --- TON NOUVEAU SCRIPT POUR LA LECTURE ET LE PLEIN ÉCRAN AU CHARGEMENT DE LA PAGE ---
+  // CE BLOC DE CODE DOIT ÊTRE PRÉSENT SUR CHAQUE PAGE D'ÉPISODE
+  const urlParams = new URLSearchParams(window.location.search);
+  const playRequested = urlParams.get('play');
+
+  if (playRequested === 'true') {
+    // Retarde un peu l'exécution pour s'assurer que Plyr est bien initialisé
+    setTimeout(() => {
+      const lecteur = document.querySelector('#player');
+      if (lecteur && typeof Plyr !== 'undefined') {
+        // Déjà initialisé par la logique principale Plyr sur DOMContentLoaded,
+        // donc on récupère l'instance existante si possible, ou on la recrée.
+        // Puisque Plyr est déjà globalement initialisé, on peut juste appeler player.play()
+        // directement si l'instance est accessible, ou recréer une instance si nécessaire.
+        // Pour être sûr, on va utiliser l'instance `player` déjà créée.
+
+        lecteur.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+        // Utilise l'instance 'player' déjà créée par la logique principale
+        player.play().then(() => {
+          // Tente de passer en plein écran après la lecture
+          // Note : Cela peut encore être bloqué par le navigateur selon ses politiques
+          if (player.fullscreen.enabled && !player.fullscreen.active) {
+            player.fullscreen.enter().catch(err => {
+              console.warn('Impossible de passer en plein écran automatiquement :', err);
+            });
+          }
+
+          // Nettoie l'URL pour retirer le paramètre ?play=true
+          if (window.history.replaceState) {
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+          }
+        }).catch(error => {
+          console.error('Lecture automatique impossible :', error);
+        });
+      }
+    }, 500); // Délai un peu plus long pour s'assurer que Plyr est complètement prêt
+  }
+  // --- FIN DU NOUVEAU SCRIPT ---
 
 });
 
