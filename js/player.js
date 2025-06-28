@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
       enabled: true,
       src: previewVttUrl
     },
+    captions: {
+        active: false, // Active les sous-titres par défaut
+        language: 'fr', // Définit le français comme langue par défaut si disponible
+        update: true // Écoute les changements de pistes et met à jour le menu
+    },
     volume: 1,
     muted: false,
     // autoplay: true, // RETIRÉ: Sera géré par le script ?play=true

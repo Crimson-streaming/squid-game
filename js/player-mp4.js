@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
             enabled: true,
             key: "player"
         },
+        captions: {
+        active: false, // Active les sous-titres par défaut
+        language: 'fr', // Définit le français comme langue par défaut si disponible
+        update: true // Écoute les changements de pistes et met à jour le menu
+        },
         invertTime: false,
         disableContextMenu: true,
         ratio: "16:9",
