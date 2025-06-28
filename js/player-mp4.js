@@ -133,6 +133,64 @@ document.addEventListener('DOMContentLoaded', () => {
     // (Le code Chromecast reste inchangé car il semble indépendant du problème de sauvegarde de temps)
     initChromecast();
     
+    player.on('ready', () => {
+    const controlsContainer = document.querySelector('.plyr__controls');
+    if (!controlsContainer) return;
+
+    if (typeof window.introStart !== 'number' || typeof window.introEnd !== 'number') {
+      console.warn('Intro non définie, le bouton "Passez l\'intro" ne sera pas affiché.');
+      return;
+    }
+
+    const introStart = window.introStart;
+    const introEnd = window.introEnd;
+
+    const btn = document.createElement('button');
+    btn.classList.add('plyr__control');
+    btn.type = 'button';
+    btn.id = 'skipIntroButton';
+    btn.setAttribute('aria-label', 'Passez l\'intro');
+    btn.innerText = 'Passez l\'intro';
+
+    Object.assign(btn.style, {
+      backgroundColor: '#b3151d',
+      border: 'none',
+      borderRadius: '5px',
+      padding: '4px 8px',
+      color: 'white',
+      fontSize: '12px',
+      fontFamily: "'Nunito', sans-serif",
+      fontWeight: '700',
+      display: 'none',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      width: '90px',
+      textAlign: 'center',
+      lineHeight: '1',
+    });
+
+    const currentTimeEl = controlsContainer.querySelector('.plyr__time');
+    if (currentTimeEl) {
+      currentTimeEl.insertAdjacentElement('beforebegin', btn);
+    } else {
+      controlsContainer.appendChild(btn);
+    }
+
+    player.on('timeupdate', () => {
+      const t = player.currentTime;
+      btn.style.display = (t >= introStart && t <= introEnd) ? 'flex' : 'none';
+    });
+
+    btn.addEventListener('click', () => {
+      console.log('Clique sur Passez l’intro détecté !');
+      player.currentTime = introEnd;
+      player.play();
+    });
+  });
+
+
+
     // --- Bouton Chromecast (si pas iOS) ---
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     
