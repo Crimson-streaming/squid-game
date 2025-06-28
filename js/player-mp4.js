@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Déclaration correcte de videoElement et sourceElement
+    const videoElement = document.getElementById('player');
+    const sourceElement = videoElement.querySelector('source');
+    const previewVttUrl = videoElement.getAttribute('data-preview');
+
     const isMobile = 'ontouchstart' in window || /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
     const screenIsLargeEnough = window.innerWidth >= 600 && !isMobile;
     const playerControls = screenIsLargeEnough ?
-        ['play-large', 'rewind', 'play', 'fast-forward', 'progress', 'current-time', 'mute', 'volume', 'settings', 'pip', 'airplay', 'fullscreen'] :
-        ['play-large', 'rewind', 'play', 'fast-forward', 'progress', 'current-time', 'settings', 'pip', 'airplay', 'fullscreen'];
+    ['play-large', 'rewind', 'play', 'fast-forward', 'progress', 'current-time', 'mute', 'volume', 'settings', 'pip', 'airplay', 'fullscreen'] :
+    ['play-large', 'rewind', 'play', 'fast-forward', 'progress', 'current-time', 'settings', 'pip', 'airplay', 'fullscreen'];
 
     console.log("Contrôles du lecteur :", playerControls);
 
@@ -28,6 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
         active: false, // Active les sous-titres par défaut
         language: 'fr', // Définit le français comme langue par défaut si disponible
         update: true // Écoute les changements de pistes et met à jour le menu
+        },
+        previewThumbnails: {
+        enabled: true,
+        src: previewVttUrl
         },
         invertTime: false,
         disableContextMenu: true,
@@ -73,9 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         muted: false
     });
 
-    // Déclaration correcte de videoElement et sourceElement
-    const videoElement = document.getElementById('player');
-    const sourceElement = videoElement.querySelector('source');
+
     
     // const hlsUrl = videoElement.querySelector('source').src; // Cette ligne semble inutilisée
     // const previewVttUrl = videoElement.getAttribute('data-preview'); // Cette ligne semble inutilisée
