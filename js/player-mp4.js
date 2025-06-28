@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fullscreen: {
             enabled: true,
             fallback: true,
-            iosNative: true
+            iosNative: false
         },
         storage: {
             enabled: true,
